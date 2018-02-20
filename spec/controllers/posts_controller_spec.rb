@@ -14,12 +14,7 @@ RSpec.describe PostsController, type: :controller do
       expect(assigns(:posts)).to eq([my_post])
     end
   end
-  describe 'Post Title on #index' do
-    it "marks every 5th post as 'SPAM'"
-      get :index
-      expect(:posts.title {|x| x % 5 == 0}).to eq("SPAM")
-    end
-  end
+end
   #
   # describe "GET #show" do
   #   it "returns http success" do
@@ -41,5 +36,3 @@ RSpec.describe PostsController, type: :controller do
   #     expect(response).to have_http_status(:success)
   #   end
   # end
-
-end
