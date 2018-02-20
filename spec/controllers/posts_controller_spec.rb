@@ -13,6 +13,16 @@ RSpec.describe PostsController, type: :controller do
       get :index
       expect(assigns(:posts)).to eq([my_post])
     end
+    it 'checks if posts are properly labled "SPAM" 5th' do
+      get :index
+      posts = assigns(:posts)
+      expect(posts[4].title).to eq("SPAM")
+    end
+    it 'checks if posts are properly labled "SPAM" 9th' do
+      get :index
+      posts = assigns(:posts)
+      expect(posts[9].title).to eq("SPAM")
+    end
   end
 
   #
