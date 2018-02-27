@@ -30,4 +30,7 @@
    def self.random_price
      price = rand(5..500)
    end
+   def self.random_boolean
+     boolean = [true, false].sample
+   end
  end
