@@ -7,6 +7,9 @@
       fullName.each_with_index {|n,i| p fullName[i] = n.capitalize}  if fullName.present?
     end
     self.name = fullName.join(" ") if fullName.present?
+    # self.name = self.name.split(" ").map do |name|
+    #   name.capitalize 
+    # end.join(" ")
    }
 
  # #3
