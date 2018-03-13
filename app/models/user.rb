@@ -2,11 +2,11 @@
  # #2
    before_save { self.email = email.downcase if email.present? }
    before_save { 
-    fullName = self.name.split(" ") if name.present?
-    if fullName.length > 1
-      fullName.each_with_index {|n,i| p fullName[i] = n.capitalize}  if fullName.present?
+    full_name = self.name.split(" ") if name.present?
+    if full_name.length > 1
+      full_name.each_with_index {|n,i| p full_name[i] = n.capitalize}  if full_name.present?
     end
-    self.name = fullName.join(" ") if fullName.present?
+    self.name = full_name.join(" ") if full_name.present?
     # self.name = self.name.split(" ").map do |name|
     #   name.capitalize 
     # end.join(" ")
