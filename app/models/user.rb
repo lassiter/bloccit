@@ -3,7 +3,9 @@
    before_save { self.email = email.downcase if email.present? }
    before_save { 
     fullName = self.name.split(" ") if name.present?
-    fullName.each_with_index {|n,i| p fullName[i] = n.capitalize}  if fullName.present?
+    if fullName.length > 1
+      fullName.each_with_index {|n,i| p fullName[i] = n.capitalize}  if fullName.present?
+    end
     self.name = fullName.join(" ") if fullName.present?
    }
 
