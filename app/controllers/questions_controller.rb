@@ -51,7 +51,7 @@ class QuestionsController < ApplicationController
  # #8
      if @question.destroy
        flash[:notice] = "\"#{@question.title}\" was deleted successfully."
-       redirect_to posts_path
+       redirect_to question_path
      else
        flash.now[:alert] = "There was an error deleting the question."
        render :show
