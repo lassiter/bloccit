@@ -1,4 +1,5 @@
  class User < ApplicationRecord
+  has_many :posts, dependent: :destroy
   before_save :format_name, :format_email
   validates :name, length: { minimum: 1, maximum: 100 }, presence: true
   validates :password, presence: true, length: { minimum: 6 }, if: "password_digest.nil?"

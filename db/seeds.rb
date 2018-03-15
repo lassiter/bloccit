@@ -6,6 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'random_data'
+#create users 
+5.times do
+   User.create!(
+ # #3
+   name:     RandomData.random_name,
+   email:    RandomData.random_email,
+   password: RandomData.random_sentence
+   )
+ end
+ users = User.all
+
  # Create Topics
  15.times do
    Topic.create!(
@@ -32,6 +43,7 @@ require 'random_data'
 # #1
   Post.create!(
     topic:  topics.sample,
+    user:   users.sample,
     title:  RandomData.random_sentence,
     body:   RandomData.random_paragraph
   )
@@ -74,10 +86,18 @@ end
 
 questions = Question.all
 
+ user = User.first
+ user.update_attributes!(
+   email: 'lassitergregg@gmail..com', # replace this with your personal email
+   password: '123123'
+ )
+
+
 puts "Seed finished"
+puts "#{User.count} users created"
 puts "#{Topic.count} topics created"
 puts "#{Post.count} posts created"
-puts "#{SponsoredPost.count} posts created"
+puts "#{SponsoredPost.count} sponsored posts created"
 puts "#{Comment.count} comments created"
 puts "#{Advertisement.count} ads created"
 puts "#{Question.count} questions created"
