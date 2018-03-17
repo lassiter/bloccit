@@ -93,6 +93,14 @@ questions = Question.all
    password: 'helloworld',
    role:     'admin'
  )
+
+  # Create an admin user
+ moderator = User.create!(
+   name:     'moderator User',
+   email:    'moderator@example.com',
+   password: 'helloworld',
+   role:     'moderator'
+ )
  
  # Create a member
  member = User.create!(
