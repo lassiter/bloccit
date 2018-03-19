@@ -52,11 +52,11 @@ uniquepost = Post.find_or_create_by(title: "That one unique post", body:"It's go
 
 posts = Post.all
 
-# Create Comments
-# #3
+
+#Create Comments
 100.times do
   Comment.create!(
-# #4
+    user: users.sample,
     post: posts.sample,
     body: RandomData.random_paragraph
   )
