@@ -253,12 +253,10 @@ RSpec.describe TopicsController, type: :controller do
 
     describe "DELETE destroy" do
       it "can't delete the topic" do
-        # if user.moderator?
           delete :destroy, params: { id: my_topic.id }
-          count = Post.where({id: my_topic.id}).size
+          count = Topic.where({id: my_topic.id}).size
           expect(count).to_not eq 0
           expect(flash[:alert]).to be_present
-        # end
       end
     end
   end
