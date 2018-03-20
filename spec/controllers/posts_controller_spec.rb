@@ -360,18 +360,9 @@ RSpec.describe PostsController, type: :controller do
     
     # Testing that these actions don't work.
     describe "DELETE destroy" do
-      it "deletes the post" do
-        if other_user.moderator?
-          puts other_user.moderator?
-          delete :destroy, params: { topic_id: my_topic.id, id: my_post.id }
-          count = Post.where({id: my_post.id}).size
-          expect(count).to_not eq 0
-        end
-      end
-
       it "redirects to posts index" do
         delete :destroy, params: { topic_id: my_topic.id, id: my_post.id }
-        expect(response).to redirect_to my_topic
+        expect(response).to redirect_to([my_topic, my_post])
       end
     end
   end

@@ -4,6 +4,7 @@ class Post < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :votes, dependent: :destroy
 
+  after_create :create_vote
   default_scope { order('rank DESC') }
   scope :ordered_by_title, -> { order('title ASC') }
   scope :ordered_by_reverse_created_at, -> { order('created_at ASC') }
@@ -36,5 +37,8 @@ class Post < ApplicationRecord
   end
   def self.ordered_by_reverse_created_at
     order('created_at ASC')
+  end
+  def create_vote
+    user.votes.create(value: 1, post: self)
   end
 end
