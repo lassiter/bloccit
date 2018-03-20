@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe User, type: :model do
    let(:user) { User.create!(name: "bloccit User", email: "user@bloccit.com", password: "password") }
    let(:temp_name_test) {test_name = user.name.split(" ")} 
+   
+   it { is_expected.to have_many(:votes) }
    it { is_expected.to have_many(:posts) }
    it { is_expected.to have_many(:comments) }
    # Shoulda tests for name

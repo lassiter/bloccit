@@ -40,16 +40,16 @@ require 'random_data'
 
 # Create Posts
 50.times do
-# #1
-  Post.create!(
+  post = Post.create!(
     topic:  topics.sample,
     user:   users.sample,
     title:  RandomData.random_sentence,
     body:   RandomData.random_paragraph
   )
+  post.update_attribute(:created_at, rand(10.minutes .. 1.year).ago)
+  rand(1..5).times { post.votes.create!(value: [-1,1].sample, user: users.sample) }
 end
 uniquepost = Post.find_or_create_by(title: "That one unique post", body:"It's got that special paragraph.")
-
 posts = Post.all
 
 
@@ -118,3 +118,4 @@ puts "#{SponsoredPost.count} sponsored posts created"
 puts "#{Comment.count} comments created"
 puts "#{Advertisement.count} ads created"
 puts "#{Question.count} questions created"
+puts "#{Vote.count} votes created"
