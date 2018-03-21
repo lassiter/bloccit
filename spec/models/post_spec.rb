@@ -1,43 +1,46 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-# #1
-   let(:name) { RandomData.random_sentence }
-   let(:description) { RandomData.random_paragraph }
-   let(:title) { RandomData.random_sentence }
-   let(:body) { RandomData.random_paragraph }
 
-   let(:topic) { Topic.create!(name: name, description: description) }
+  let(:name) { RandomData.random_sentence }
+  let(:description) { RandomData.random_paragraph }
+  let(:title) { RandomData.random_sentence }
+  let(:body) { RandomData.random_paragraph }
 
-   let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
-   let(:post) { topic.posts.create!(title: title, body: body, user: user) }
- 
-   it { is_expected.to have_many(:comments) }
-   it { is_expected.to have_many(:votes) }
-   it { is_expected.to have_many(:favorites) }
-   it { is_expected.to belong_to(:topic) }
-   it { is_expected.to belong_to(:user) }
+  let(:topic) { Topic.create!(name: name, description: description) }
 
-   it { is_expected.to validate_presence_of(:title) }
-   it { is_expected.to validate_presence_of(:body) }
-   it { is_expected.to validate_presence_of(:topic) }
- 
-   it { is_expected.to validate_length_of(:title).is_at_least(5) }
-   it { is_expected.to validate_length_of(:body).is_at_least(20) }
+  let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
+  let(:user_comment) { Comment.new(body: 'Comment Body', post: post, user: another_user) }
+  let(:post) { topic.posts.create!(title: title, body: body, user: user) }
+  let(:another_user) { User.create!(name: "Another User", email: "anotheruser@bloccit.com", password: "helloworld") }
+  let(:another_user_comment) { Comment.new(body: 'Comment Body', post: post, user: another_user) }
+
+  it { is_expected.to have_many(:comments) }
+  it { is_expected.to have_many(:votes) }
+  it { is_expected.to have_many(:favorites) }
+  it { is_expected.to belong_to(:topic) }
+  it { is_expected.to belong_to(:user) }
+
+  it { is_expected.to validate_presence_of(:title) }
+  it { is_expected.to validate_presence_of(:body) }
+  it { is_expected.to validate_presence_of(:topic) }
+
+  it { is_expected.to validate_length_of(:title).is_at_least(5) }
+  it { is_expected.to validate_length_of(:body).is_at_least(20) }
 
   describe "attributes" do
     it "has title and body attributes" do
       expect(post).to have_attributes(title: title, body: body, user: user)
     end
   end
-  describe "voting" do
-
+  context "voting" do
     before do
       3.times { post.votes.create!(value: 1, user: user) }
       2.times { post.votes.create!(value: -1, user: user) }
       @up_votes = post.votes.where(value: 1).count
       @down_votes = post.votes.where(value: -1).count
     end
+  
 
     describe "#up_votes" do
       it "counts the number of votes with value = 1" do
@@ -58,7 +61,6 @@ RSpec.describe Post, type: :model do
     end
 
     describe "#update_rank" do
- # #28
       it "calculates the correct rank" do
         post.update_rank
         expect(post.rank).to eq (post.points + (post.created_at - Time.new(1970,1,1)) / 1.day.seconds)
@@ -87,5 +89,20 @@ RSpec.describe Post, type: :model do
       end
     end
   end
+  describe '#after_create' do
 
+    it 'creates a favorite for the post and user' do
+      favorite = user.favorites.create(post: post)
+      expect(user.posts.favorite).to equal(user.favorite.post)
+    end
+    it 'notifies the post creator that they have favorited the post' do
+      favorite = user.favorites.create(post: post)
+      expect(FavoriteMailer).to receive(:new_post).with(user, post, another_user_comment).and_return(double(deliver_now: true))
+    end
+    it 'notifies the post creator of another user\'s comment' do
+      favorite = another_user.favorites.create(post: post)
+      expect(FavoriteMailer).to receive(:new_post).with(another_user, post, another_user_comment).and_return(double(deliver_now: true))
+    end
+  end
 end
+
