@@ -93,7 +93,7 @@ RSpec.describe Post, type: :model do
 
   #   it 'creates a favorite for the post and user' do
   #     favorite = Favorite.create!(post: post, user: user)
-  #     expect(favorite.post).to equal(user.posts) #content matches but not ActiveID
+  #     expect(favorite.post.title).to equal(user.posts.title) #content matches but not ActiveID
   #     expect(favorite.user.body).to equal(post.users.body) #content matches but not ActiveID
   #   end
   #   it 'notifies the post creator that they have favorited the post' do
