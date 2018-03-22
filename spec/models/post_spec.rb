@@ -7,12 +7,12 @@ RSpec.describe Post, type: :model do
   let(:title) { RandomData.random_sentence }
   let(:body) { RandomData.random_paragraph }
 
-  let(:topic) { Topic.create!(name: name, description: description) }
+  let(:topic) { create(:topic) }
+  let(:user) { create(:user) }
+  let(:another_user) { create(:user) }
+  let(:post) { create(:post) }
 
-  let(:user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
   let(:user_comment) { Comment.new(body: 'Comment Body', post: post, user: another_user) }
-  let(:post) { topic.posts.create!(title: title, body: body, user: user) }
-  let(:another_user) { User.create!(name: "Another User", email: "anotheruser@bloccit.com", password: "helloworld") }
   let(:another_user_comment) { Comment.new(body: 'Comment Body', post: post, user: another_user) }
 
   it { is_expected.to have_many(:comments) }
@@ -30,7 +30,7 @@ RSpec.describe Post, type: :model do
 
   describe "attributes" do
     it "has title and body attributes" do
-      expect(post).to have_attributes(title: title, body: body, user: user)
+      expect(post).to have_attributes(title: post.title, body: post.body)
     end
   end
   context "voting" do

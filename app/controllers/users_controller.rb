@@ -24,6 +24,10 @@ class UsersController < ApplicationController
   def confirm
     @user = User.new(user_params)
   end #confirm
+  def show
+    @user = User.find(params[:id])
+    @posts = @user.posts.visible_to(current_user)
+  end #show
 
 private 
   def user_params

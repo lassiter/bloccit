@@ -2,10 +2,9 @@ require 'rails_helper'
 include SessionsHelper
 
 RSpec.describe FavoritesController, type: :controller do
-  let(:my_user) { User.create!(name: "Bloccit User", email: "user@bloccit.com", password: "helloworld") }
-  let(:my_topic) { Topic.create!(name:  RandomData.random_sentence, description: RandomData.random_paragraph) }
-  let(:my_post) { my_topic.posts.create!(title: RandomData.random_sentence, body: RandomData.random_paragraph, user: my_user) }
-
+  let(:my_topic) { create(:topic) }
+  let(:my_user) { create(:user) }
+  let(:my_post) { create(:post) }
   context 'guest user' do
     describe 'POST create' do
       it 'redirects the user to the sign in view' do
@@ -30,7 +29,7 @@ RSpec.describe FavoritesController, type: :controller do
     describe 'POST create' do
       it 'redirects to the posts show view' do
         post :create, params: { post_id: my_post.id }
-        expect(response).to redirect_to([my_topic, my_post])
+        expect(response).to redirect_to([my_post.topic, my_post])
       end
 
       it 'creates a favorite for the current user and specified post' do
@@ -45,7 +44,7 @@ RSpec.describe FavoritesController, type: :controller do
       it 'redirects to the posts show view' do
         favorite = my_user.favorites.where(post: my_post).create
         delete :destroy, params: { post_id: my_post.id, id: favorite.id }
-        expect(response).to redirect_to([my_topic, my_post])
+        expect(response).to redirect_to([my_post.topic, my_post])
       end
 
       it 'destroys the favorite for the current user and post' do

@@ -15,10 +15,13 @@
         <li><%= link_to "About", about_path %></li>
         <li><%= link_to "Topics", topics_path %></li>
          <% if current_user %>
-           <%= image_tag(avatar_url(current_user), class: "pull-right gravatar") %>
            <div class="user-block pull-right">
-           <li class="row"><%= link_to "#{current_user.name}", session_path(current_user), method: :delete %></li>
-           <li class="row"><%= link_to "Sign Out", session_path(current_user), method: :delete %></li>
+            <div>
+              <li class="pull-right"><%= link_to "Sign Out", session_path(current_user), method: :delete %></li>
+              <li class="pull-right"><%= link_to current_user.name, user_path(current_user) %></li>
+            </div>
+            <li class="pull-right"><%= image_tag current_user.avatar_url(48) %></li>
+           </div>
            </div>
          <% else %>
            <li class="pull-right"><%= link_to "Sign In", new_session_path %></li>
