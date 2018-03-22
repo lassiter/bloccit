@@ -1,0 +1,8 @@
+You favorited "<%= @post.title %>"
+ <%= "=" * (@post.title.length + 12) %>
+ 
+ We'll keep an eye on it and let you know if you get any comments.
+ 
+ <%= @post.body %>
+ 
+ Visit online at: <%= topic_post_url(@post.topic, @post) %>
