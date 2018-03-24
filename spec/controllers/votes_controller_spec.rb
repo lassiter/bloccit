@@ -31,16 +31,14 @@
  
      describe "POST up_vote" do
        it "the users first vote increases number of post votes by one" do
-         votes = my_vote.value.count
          post :up_vote, params: { post_id: user_post.id }
-         expect(my_vote.value.count).to eq(votes + 1)
+         expect(user_post.points).to eq(2)
        end
  
        it "the users second vote does not increase the number of votes" do
          post :up_vote, params: { post_id: user_post.id }
-         votes = my_vote.value.count
          post :up_vote, params: { post_id: user_post.id }
-         expect(my_vote.value.count).to eq(votes)
+         expect(user_post.points).to eq(2)
        end
  
        it "increases the sum of post votes by one" do
@@ -63,17 +61,15 @@
      end
 
     describe "POST down_vote" do
-       it "the users first vote increases number of post votes by one" do
-         votes = my_vote.value.count
+       it "the users first vote decreases number of post votes by one" do
          post :down_vote, params: { post_id: user_post.id }
-         expect(my_vote.value.count).to eq(votes + 1)
+         expect(user_post.points).to eq(0)
        end
  
-       it "the users second vote does not increase the number of votes" do
+       it "the users second vote does not decreases the number of votes" do
          post :down_vote, params: { post_id: user_post.id }
-         votes = my_vote.value.count
          post :down_vote, params: { post_id: user_post.id }
-         expect(my_vote.value.count).to eq(votes)
+         expect(user_post.points).to eq(0)
        end
  
        it "decreases the sum of post votes by one" do

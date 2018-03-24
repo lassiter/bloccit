@@ -1,5 +1,5 @@
  <div class="row">
-   <div class="col-md-8">
+   <div class="col-md-6">
      <div class="media">
        <br />
        <% avatar_url = @user.avatar_url(128) %>
@@ -16,11 +16,24 @@
          </small>
        </div>
      </div>
+    <div>
+      <% if are_there_any_posts? || are_there_any_comments? %>
+        <% if are_there_any_posts? %>
+          <h2>Posts</h2>
+          <%= render @user.posts %>
+        <% end %>
+        <% if are_there_any_comments? %>
+          <h2>Comments</h2>
+          <%= render @user.comments %>
+        <% end %>
+      <% else %>
+        <h4><%= "#{@user.name} has not submitted any posts yet."%></h4>
+    <% end %>
+    </div>
    </div>
+   <% if are_there_any_favorites? %>
+    <div class="col-md-6">
+      <%= render partial: 'favorites/list'%>
+    </div>
+   <% end %>
  </div>
-
- <h2>Posts</h2>
- <%= render @user.posts %>
- 
- <h2>Comments</h2>
- <%= render @user.comments %>

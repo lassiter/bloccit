@@ -26,6 +26,9 @@
     "http://gravatar.com/avatar/#{gravatar_id}.png?s=#{size}"
   end
 
+
+
+
   private
     def format_name
       if name.present?

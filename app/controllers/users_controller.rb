@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   # This makes `user_params()` available in the view.
   helper_method :user_params
+  helper_method :return_favorites
 
   def new
     @user = User.new
@@ -28,12 +29,14 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @posts = @user.posts.visible_to(current_user)
   end #show
+  def return_favorites
+   Post.where(id: @user.favorites)
+  end
 
 private 
   def user_params
     # binding.pry
     params.require(:user).permit(:name, :email, :password, :password_confirmation)
   end #user_params
-
 
 end #class UsersController

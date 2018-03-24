@@ -50,12 +50,4 @@ class Post < ApplicationRecord
     FavoriteMailer.new_post(self).deliver_now
   end
 
-  # private
-
-  # def send_favorite_emails # <-- first attempt at #create_favorite to talk at mentor meeting.
-  #   user.favorites.create(self)
-  #   self.favorites.each do |favorite|
-  #     FavoriteMailer.new_post(favorite.user, self).deliver_now
-  #   end
-  # end
 end

@@ -1,0 +1,15 @@
+<h3>Your Favorites</h3>
+  <% return_favorites.each do |post| %>
+    <div class="media">
+      <%= image_tag post.user.avatar_url(30),{class: "mr-3 d-inline"} %>
+      <div class="media-body d-inline">
+        <p class="mt-0 h6">
+        <%= link_to post.title, topic_post_path(post.topic, post) %>
+        </p>
+        <small><%= post.user.name %></small>
+        <small><%= post.comments.count %> Comments</small> </br>
+        <small><%= post.points %> Votes</small>
+      </div>
+    </div>
+  <% end %>
+

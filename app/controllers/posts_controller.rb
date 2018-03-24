@@ -77,4 +77,7 @@ class PostsController < ApplicationController
        redirect_to [post.topic, post]
      end
     end
+        def return_favorites
+    Post.where(id: @user.favorites)
+  end #return_favorites
 end

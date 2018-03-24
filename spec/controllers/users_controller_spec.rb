@@ -9,6 +9,13 @@ RSpec.describe UsersController, type: :controller do
         password_confirmation: "blochead"
     }
   end
+  let(:my_topic) { create(:topic) }
+  let(:my_user) { create(:user) }
+  let(:other_user) { create(:user) }
+  let(:my_post) { create(:post, user: my_user) }
+  let(:my_comment) { create(:comment, post: my_post, user: my_user) }
+  let(:other_comment) { create(:comment, post: my_post, user: other_user) }
+
   describe "GET new" do
     it "returns http success" do
       get :new
@@ -79,4 +86,25 @@ RSpec.describe UsersController, type: :controller do
       expect(assigns(:user)).to eq(factory_user)
     end
   end
+
+
+    describe '#return_favorites' do #mentor
+      it 'will return all favorited posts of the user' do
+
+        @user = my_user 
+        puts @user
+        5.times { create(:post, user: @user)}
+        puts @user.favorites
+        puts @user.posts
+        # puts  @user.favorites.count
+        favs = Post.where({id: @user.favorites}).count
+        expect(@user.return_favorites).to eq(favs)
+        # UsersController.new.send(:return_favorites, @user).should == favs
+      end
+      # it 'if the user has no favorites, it will return nothing' do
+      #   favs = Post.where({id: my_post.id}).favorites.count
+      #   expect(other_user.favorites.count).to eq(0)
+      # end
+    end
+
 end
