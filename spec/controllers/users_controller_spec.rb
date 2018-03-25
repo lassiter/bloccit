@@ -65,6 +65,19 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe 'GET show' do
+    it 'if the user has posts it will return favorites' do
+      5.times { create(:post, user: my_user)}
+      get :show, params: { id: my_user }
+      favs = Post.where({id: my_user.favorites}).count 
+      expect(@controller.return_favorites.count).to eq(favs)
+    end
+    it 'if the user has no posts it will return nothing' do
+      get :show, params: { id: my_user }
+      expect(@controller.return_favorites.count).to eq(0)
+    end
+  end
+
   describe "not signed in" do
     let(:factory_user) { create(:user) }
 
@@ -88,23 +101,23 @@ RSpec.describe UsersController, type: :controller do
   end
 
 
-    describe '#return_favorites' do #mentor
-      it 'will return all favorited posts of the user' do
+    # describe '#return_favorites' do #mentor
+    #   it 'will return all favorited posts of the user' do
 
-        @user = my_user 
-        puts @user
-        5.times { create(:post, user: @user)}
-        puts @user.favorites
-        puts @user.posts
-        # puts  @user.favorites.count
-        favs = Post.where({id: @user.favorites}).count
-        expect(@user.return_favorites).to eq(favs)
-        # UsersController.new.send(:return_favorites, @user).should == favs
-      end
-      # it 'if the user has no favorites, it will return nothing' do
-      #   favs = Post.where({id: my_post.id}).favorites.count
-      #   expect(other_user.favorites.count).to eq(0)
-      # end
-    end
+    #     @user = my_user 
+    #     puts @user
+    #     5.times { create(:post, user: @user)}
+    #     puts @user.favorites
+    #     puts @user.posts
+    #     # puts  @user.favorites.count
+    #     favs = Post.where({id: @user.favorites}).count
+    #     expect(@user.return_favorites).to eq(favs)
+    #     # UsersController.new.send(:return_favorites, @user).should == favs
+    #   end
+    #   # it 'if the user has no favorites, it will return nothing' do
+    #   #   favs = Post.where({id: my_post.id}).favorites.count
+    #   #   expect(other_user.favorites.count).to eq(0)
+    #   # end
+    # end
 
 end
